@@ -16,9 +16,9 @@
             <th>Title</th>
             <th>Description</th>
           </tr>
-          <tr>
-            <td>aa</td>
-            <td>aa</td>
+          <tr v-for="blog in blogs" :key="blog.id">
+            <td>{{ blog.title }}</td>
+            <td>{{ blog.body }}</td>
             <td>show</td>
             <td>Edit</td>
             <td>Destroy</td>
@@ -30,7 +30,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+  computed: {
+    ...mapState(['blogs'])
+  },
   data () {
     return {
       blog: {}
@@ -38,7 +43,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      
+
     }
   }
 }
