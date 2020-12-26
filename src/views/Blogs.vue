@@ -14,8 +14,8 @@
           <tr v-for="blog in blogs" :key="blog.id">
             <td>{{ blog.title }}</td>
             <td>{{ blog.body }}</td>
-            <td>show</td>
-            <td>Edit</td>
+            <td><router-link :to="{ name: 'show-blog', params: { id: blog.id }}">show</router-link></td>
+            <td><router-link :to="{ name: 'edit-blog', params: { id: blog.id }}">edit</router-link></td>
             <td>Destroy</td>
           </tr>
         </table>
