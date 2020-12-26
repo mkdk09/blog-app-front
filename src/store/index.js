@@ -11,6 +11,10 @@ export default new Vuex.Store({
   mutations: {
     FETCH_BLOGS(state, blogs) {
       state.blogs = blogs
+    },
+    ADD_BLOG(state, blog) {
+      const blogs = state.blogs.concat(blog)
+      state.blogs = blogs
     }
   },
   actions: {
@@ -20,6 +24,12 @@ export default new Vuex.Store({
           commit('FETCH_BLOGS', res.data)
         }) 
         .catch(e => console.log(e))
-    }
+    },
+    async addBlog({ commit }, blog) {
+      const res = await axios().post('/blogs', blog)
+      const savedBlog = res.data
+      commit('ADD_BLOG', savedBlog)
+      return savedBlog
+    },
   }
 })
