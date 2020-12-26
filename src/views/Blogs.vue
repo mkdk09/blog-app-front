@@ -3,14 +3,9 @@
     <h1>Blogs</h1>
     <v-row>
       <v-col cols="4">
-        <form>
-          <v-text-field v-model="blog.title" label="Title"></v-text-field>
-          <v-textarea v-model="blog.body" label="Body"></v-textarea>
-
-          <v-btn class="mr-4" @click="onSubmit">Create</v-btn>
-        </form>
+        <AddBlog />
       </v-col>
-      <v-cols cols="8">
+      <v-col cols="8">
         <table>
           <tr>
             <th>Title</th>
@@ -19,22 +14,26 @@
           <tr v-for="blog in blogs" :key="blog.id">
             <td>{{ blog.title }}</td>
             <td>{{ blog.body }}</td>
-            <td>show</td>
-            <td>Edit</td>
+            <td><router-link :to="{ name: 'show-blog', params: { id: blog.id }}">show</router-link></td>
+            <td><router-link :to="{ name: 'edit-blog', params: { id: blog.id }}">edit</router-link></td>
             <td>Destroy</td>
           </tr>
         </table>
-      </v-cols>
+      </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import AddBlog from './AddBlog'
 
 export default {
+  components: {
+    AddBlog
+  },
   computed: {
-    ...mapState(['blogs'])
+    ...mapState(['blogs']),
   },
   data () {
     return {
