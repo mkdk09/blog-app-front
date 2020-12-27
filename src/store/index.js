@@ -6,7 +6,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    blogs: []
+    blogs: [],
+    flash_message: {
+      status: false,
+      message: '',
+    }
   },
   mutations: {
     FETCH_BLOGS(state, blogs) {
@@ -22,6 +26,13 @@ export default new Vuex.Store({
           blogId = blog
         }
       })
+    },
+    DELETE_BLOG(state, blogId) { 
+      const blogs = state.blogs.filter(blog => blog.id != blogId)
+      state.blogs = blogs
+    },
+    setMessage(state, payload) {
+      state.flash_message = payload
     }
   },
   actions: {
@@ -43,6 +54,10 @@ export default new Vuex.Store({
       const editedBlog = res.data
       commit('EDIT_BLOG', editedBlog)
       return editedBlog
+    },
+    async deleteBlog({ commit }, blog) { 
+      await axios().delete(`/blogs/${blog.id}`, blog)
+      commit('DELETE_BLOG', blog.id)
     }
   }
 })

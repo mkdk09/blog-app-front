@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Flash />
     <h1>Blogs</h1>
     <v-row>
       <v-col cols="4">
@@ -16,7 +17,7 @@
             <td>{{ blog.body }}</td>
             <td><router-link :to="{ name: 'show-blog', params: { id: blog.id }}">show</router-link></td>
             <td><router-link :to="{ name: 'edit-blog', params: { id: blog.id }}">edit</router-link></td>
-            <td>Destroy</td>
+            <td><span class="button_link" @click="deleteBlog(blog)">[ delete ]</span></td>
           </tr>
         </table>
       </v-col>
@@ -27,10 +28,12 @@
 <script>
 import { mapState } from 'vuex'
 import AddBlog from './AddBlog'
+import Flash from '@/components/Flash.vue'
 
 export default {
   components: {
-    AddBlog
+    AddBlog,
+    Flash
   },
   computed: {
     ...mapState(['blogs']),
@@ -41,9 +44,24 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-
+    deleteBlog(blog) {
+      this.$store.dispatch('deleteBlog', blog)
+      this.$store.commit('setMessage', {
+        status: true,
+        message: 'Blog was successfully destroyed.'
+      })
+      setTimeout(() => {
+        this.$store.commit('setMessage', {})
+      }, 2000)
     }
   }
 }
 </script>
+
+<style scoped>
+.button_link {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+</style>
