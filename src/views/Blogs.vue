@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Flash />
     <h1>Blogs</h1>
     <v-row>
       <v-col cols="4">
@@ -27,10 +28,12 @@
 <script>
 import { mapState } from 'vuex'
 import AddBlog from './AddBlog'
+import Flash from '@/components/Flash.vue'
 
 export default {
   components: {
-    AddBlog
+    AddBlog,
+    Flash
   },
   computed: {
     ...mapState(['blogs']),
@@ -43,6 +46,13 @@ export default {
   methods: {
     deleteBlog(blog) {
       this.$store.dispatch('deleteBlog', blog)
+      this.$store.commit('setMessage', {
+        status: true,
+        message: 'Blog was successfully destroyed.'
+      })
+      setTimeout(() => {
+        this.$store.commit('setMessage', {})
+      }, 2000)
     }
   }
 }
