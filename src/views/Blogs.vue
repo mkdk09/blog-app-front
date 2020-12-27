@@ -16,7 +16,7 @@
             <td>{{ blog.body }}</td>
             <td><router-link :to="{ name: 'show-blog', params: { id: blog.id }}">show</router-link></td>
             <td><router-link :to="{ name: 'edit-blog', params: { id: blog.id }}">edit</router-link></td>
-            <td>Destroy</td>
+            <td><span class="button_link" @click="deleteBlog(blog)">[ delete ]</span></td>
           </tr>
         </table>
       </v-col>
@@ -41,9 +41,17 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-
+    deleteBlog(blog) {
+      this.$store.dispatch('deleteBlog', blog)
     }
   }
 }
 </script>
+
+<style scoped>
+.button_link {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+</style>
